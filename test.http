@@ -1,3 +1,13 @@
-POST https://bbz920414k.execute-api.us-west-2.amazonaws.com/prod/test
+POST https://bbz920414k.execute-api.us-west-2.amazonaws.com/prod/builds
 
+###
+POST https://bbz920414k.execute-api.us-west-2.amazonaws.com/prod/build
+Content-Type: application/json
+
+{
+  "CommitHash": "12345",
+  "BuildConfiguration": "build_config",
+  "BuildNumber": "2",
+  "BranchName": "main"
+}
 ###
