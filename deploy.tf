@@ -19,8 +19,9 @@ resource "aws_apigatewayv2_api" "build-manager" {
 resource "aws_apigatewayv2_stage" "build-manager-prod-stage" {
 	api_id = aws_apigatewayv2_api.build-manager.id
 	name = "prod"
+	auto_deploy = true
 }
-resource "aws_apigatewayv2_deployment" "build-manager-deployment2" {
+resource "aws_apigatewayv2_deployment" "build-manager-deployment" {
 	api_id      = aws_apigatewayv2_api.build-manager.id
 	description = "A Deployment"
 
@@ -28,22 +29,25 @@ resource "aws_apigatewayv2_deployment" "build-manager-deployment2" {
 		create_before_destroy = true
 	}
 }
-resource "aws_apigatewayv2_integration" "build-manager-integration" {
+resource "aws_apigatewayv2_integration" "get-builds" {
 	api_id = aws_apigatewayv2_api.build-manager.id
-	integration_type = "AWS_PROXY"
 
-	connection_type = "INTERNET"
-#	content_handling_strategy = "CONVERT_TO_TEXT"
+	integration_type = "AWS_PROXY"
 	integration_method = "POST"
 	integration_uri = aws_lambda_function.build-manager-get-builds.invoke_arn
-	passthrough_behavior = "WHEN_NO_MATCH"
 }
 
-resource "aws_apigatewayv2_route" "build-manager-route" {
+resource "aws_lambda_permission" "get-builds" {
+	statement_id = "AllowExecutionFromAPIGateway"
+	action = "lambda:InvokeFunction"
+	function_name = aws_lambda_function.build-manager-get-builds.function_name
+	principal = "apigateway.amazonaws.com"
+	source_arn = "${aws_apigatewayv2_api.build-manager.execution_arn}/*/*"
+}
+resource "aws_apigatewayv2_route" "get-builds" {
 	api_id = aws_apigatewayv2_api.build-manager.id
-	route_key = "ANY /example/{proxy+}"
-
-	target = "integrations/${aws_apigatewayv2_integration.build-manager-integration.id}"
+	route_key = "POST /test"
+	target = "integrations/${aws_apigatewayv2_integration.get-builds.id}"
 }
 
 resource "aws_dynamodb_table" "build-manager-metadata-table" {
@@ -55,18 +59,6 @@ resource "aws_dynamodb_table" "build-manager-metadata-table" {
 		name = "CommitHash"
 		type = "S"
 	}
-#	attribute {
-#		name = "Branch"
-#		type = "S"
-#	}
-#	attribute {
-#		name = "BuildConfiguration"
-#		type = "S"
-#	}
-#	attribute {
-#		name = "BuildNumber"
-#		type = "N"
-#	}
 }
 
 resource "aws_s3_bucket" "artifacts-bucket" {
@@ -121,6 +113,10 @@ resource "aws_lambda_function" "build-manager-get-builds" {
 	source_code_hash = filebase64sha256("build-manager-get-builds.zip")
 	
 	runtime = "nodejs16.x"
+
+	depends_on = [
+		data.archive_file.get-builds
+	]
 }
 
 
