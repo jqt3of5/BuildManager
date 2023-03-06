@@ -1,6 +1,6 @@
 data "archive_file" "add-build" {
   type = "zip"
-  source_file = "${path.module}\\lambdas\\add-build.js"
+  source_dir = "${path.module}\\lambdas\\add-build\\"
   output_path = "${path.module}\\build-manager-add-build.zip"
 }
 
@@ -29,7 +29,7 @@ resource "aws_lambda_function" "build-manager-add-build" {
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
   # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
   # source_code_hash = "${base64sha256(file("lambda_function_payload.zip"))}"
-  source_code_hash = data.archive_file.get-builds.output_base64sha256
+  source_code_hash = data.archive_file.add-build.output_base64sha256
   
   runtime = "nodejs16.x"
 

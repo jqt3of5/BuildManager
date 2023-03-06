@@ -1,13 +1,19 @@
-POST https://bbz920414k.execute-api.us-west-2.amazonaws.com/prod/builds
+POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/builds
 
 ###
-POST https://bbz920414k.execute-api.us-west-2.amazonaws.com/prod/build
+POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build
 Content-Type: application/json
 
 {
-  "CommitHash": "12345",
-  "BuildConfiguration": "build_config",
-  "BuildNumber": "2",
-  "BranchName": "main"
+  "buildId" : "abasdf1234",
+  "commitHash": "12345",
+  "buildConfiguration": "build_config",
+  "buildNumber": "3",
+  "branchName": "main",
+  "buildStarted" : "555555",
+  "uploaded" : false
 }
+###
+POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/abasdf1234
+
 ###

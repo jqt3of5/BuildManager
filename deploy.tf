@@ -30,13 +30,17 @@ resource "aws_apigatewayv2_deployment" "build-manager-deployment" {
 	}
 }
 
+output "api-url" {
+	value = aws_apigatewayv2_stage.build-manager-prod-stage.invoke_url
+}
+
 resource "aws_dynamodb_table" "build-manager-metadata-table" {
 	name = "BuildMetadata"
 	billing_mode = "PAY_PER_REQUEST"
-	hash_key = "CommitHash"
+	hash_key = "BuildId"
 
 	attribute {
-		name = "CommitHash"
+		name = "BuildId"
 		type = "S"
 	}
 }
@@ -77,6 +81,8 @@ resource "aws_iam_policy" "policy_for_lambdas" {
 					"dynamodb:Get*",
 					"dynamodb:Scan",
 					"dynamodb:Update",
+					"s3:GetObject",
+					"s3:ListBucket"
 				]
 				Effect   = "Allow"
 				Resource = "*"
@@ -84,6 +90,7 @@ resource "aws_iam_policy" "policy_for_lambdas" {
 		]
 	}) 
 }
+
 
 
 
