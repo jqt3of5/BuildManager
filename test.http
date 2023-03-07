@@ -14,6 +14,6 @@ Content-Type: application/json
   "uploaded" : false
 }
 ###
-POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/abasdf1234
+MPOST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/abasdf1234
 
 ###

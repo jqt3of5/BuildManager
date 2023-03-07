@@ -26,7 +26,7 @@ module.exports.handler = async (event) => {
     }).promise();
 
     var bucketParams = {
-      Bucket: params.BUCKET
+      Bucket:  "s3://build-manager-artifacts-bucket/"
     }
 
     var bucketItems = await s3.listObjects(bucketParams, function(err, data) {
