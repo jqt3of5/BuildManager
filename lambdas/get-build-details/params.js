@@ -1,3 +1,5 @@
 // Set the AWS Region.
 exports.REGION = "us-west-2"; //e.g. "us-east-1"
-exports.BUCKET = "s3://build-manager-artifacts-bucket/"
+var BUCKET_NAME = "build-manager-artifacts-bucket"
+exports.BUCKET_NAME = BUCKET_NAME
+exports.BUCKET_URL= "s3://" + BUCKET_NAME + "/"

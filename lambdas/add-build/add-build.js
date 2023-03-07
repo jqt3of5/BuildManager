@@ -41,7 +41,7 @@ module.exports.handler = async (event) => {
       body: JSON.stringify({
         //TODO: Sanitize the buildId
         buildId: body.buildId,
-        bucketPath: params.BUCKET + body.buildId,
+        bucketPath: params.BUCKET_URL + body.buildId,
       }),
     }
   } catch(e) {
