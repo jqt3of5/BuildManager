@@ -40,6 +40,6 @@ resource "aws_lambda_function" "build-manager-get-build" {
 
 resource "aws_apigatewayv2_route" "get-build" {
   api_id = aws_apigatewayv2_api.build-manager.id
-  route_key = "POST /build/{buildId}"
+  route_key = "GET /build/{buildId}"
   target = "integrations/${aws_apigatewayv2_integration.get-build.id}"
 }

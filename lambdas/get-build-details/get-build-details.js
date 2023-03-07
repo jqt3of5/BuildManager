@@ -10,11 +10,11 @@ AWS.config.update({region: params.REGION});
 
 module.exports.handler = async (event) => {
   try {
-    var body = JSON.parse(event.body)
+    var buildId = event.pathParameters.buildId
     var getItemParams = {
       TableName: 'BuildMetadata',
       Key: {
-        'BuildId' : {S: event.pathParameters.buildId}
+        'BuildId' : {S: buildId}
       }
     };
 
@@ -27,16 +27,18 @@ module.exports.handler = async (event) => {
     }).promise();
 
     var bucketParams = {
-      Bucket: params.BUCKET_NAME
+      Bucket: params.BUCKET_NAME,
+      Prefix: buildId
     }
 
-    var bucketItems = await s3.listObjects(bucketParams, function(err, data) {
+    var s3Results = await s3.listObjects(bucketParams, function(err, data) {
       if (err) {
         console.log("Error", err);
       } else {
         console.log("Success", data);
       }
     }).promise()
+
 
     return {
       statusCode: 200,
@@ -45,7 +47,7 @@ module.exports.handler = async (event) => {
       },
       body: JSON.stringify({
         build: item,
-        artifacts: bucketItems
+        artifacts: s3Results.Contents
       }),
     }
   } catch(e) {

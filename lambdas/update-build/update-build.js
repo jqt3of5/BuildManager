@@ -11,20 +11,22 @@ module.exports.handler = async (event) => {
 
   try {
     var body = JSON.parse(event.body)
+    var buildId = event.pathParameters.buildId
     //TODO: validate parameters
     var item = {
       TableName: 'BuildMetadata',
       Item: {
-        'BuildId' : {S: body.buildId},
-        'CommitHash' : {S: body.commitHash},
-        'BuildConfiguration' : {S: body.buildConfiguration},
-        'BuildNumber' : {N: body.buildNumber},
-        'BranchName' : {S: body.branchName},
-        'BuildStartDate' : {N: body.buildStarted},
-        'Uploaded' : {BOOL: body.uploaded ?? false},
-        'BuildUrl' : {S: body.buildUrl}
+        'BuildId': {S: buildId},
+        'CommitHash' : body.commitHash === undefined ? undefined : {S: body.commitHash},
+        'BuildConfiguration' :  body.buildConfiguration === undefined ? undefined :{S: body.buildConfiguration},
+        'BuildNumber' :  body.buildNumber === undefined ? undefined :{N: body.buildNumber},
+        'BranchName' :  body.branchName === undefined ? undefined :{S: body.branchName},
+        'BuildStartDate' :  body.buildStarted === undefined ? undefined :{N: body.buildStarted},
+        'Uploaded' :  (body.uploaded === undefined) ? undefined :{BOOL: body.uploaded },
+        'BuildUrl' :  body.buildUrl === undefined ? undefined :{S: body.buildUrl}
       }
-    };
+    }
+
 // Call DynamoDB to add the item to the table
     await dynamodb.putItem(item, function(err, data) {
       if (err) {

@@ -1,19 +1,28 @@
-POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/builds
-
+GET https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/builds
 ###
+
 POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build
 Content-Type: application/json
 
 {
-  "buildId" : "abasdf1234",
+  "buildId" : "test_artifacts",
   "commitHash": "12345",
   "buildConfiguration": "build_config",
   "buildNumber": "3",
   "branchName": "main",
   "buildStarted" : "555555",
-  "uploaded" : false
+  "buildUrl" : "google.com"
 }
 ###
-MPOST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/abasdf1234
 
+POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/test_artifact
+Content-Type: application/json
+
+{
+  "buildId": "test_artifacts",
+  "uploaded": true
+}
+###
+
+GET https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/test_artifact
 ###
