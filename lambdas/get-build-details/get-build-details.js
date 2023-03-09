@@ -28,6 +28,7 @@ module.exports.handler = async (event) => {
 
     var bucketParams = {
       Bucket: params.BUCKET_NAME,
+      //TODO: This is a prefix search, a little odd if two build ids share a prefix.
       Prefix: buildId
     }
 

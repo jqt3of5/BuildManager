@@ -5,7 +5,7 @@ POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build
 Content-Type: application/json
 
 {
-  "buildId" : "test_artifacts",
+  "buildId" : "qwerty1",
   "commitHash": "12345",
   "buildConfiguration": "build_config",
   "buildNumber": "3",
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 ###
 
-POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/test_artifact
+POST https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/qwerty1
 Content-Type: application/json
 
 {
@@ -24,5 +24,5 @@ Content-Type: application/json
 }
 ###
 
-GET https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/test_artifact
+GET https://jsbairoube.execute-api.us-west-2.amazonaws.com/prod/build/qwerty1
 ###

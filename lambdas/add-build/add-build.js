@@ -21,6 +21,7 @@ module.exports.handler = async (event) => {
         'BuildNumber' : {N: body.buildNumber},
         'BranchName' : {S: body.branchName},
         'BuildStartDate' : {N: body.buildStarted},
+        'BucketPath' : {S: params.BUCKET_URL},
         'Uploaded' : {BOOL: body.uploaded ?? false},
         'BuildUrl' : {S: body.buildUrl}
       }
